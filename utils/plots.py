@@ -1,18 +1,26 @@
 import itertools
 import seaborn as sns
 import matplotlib.pyplot as plt
-import pandas as pd
 
-def show_plot(title: str = '', suptitle: str = '') -> None:
+
+def show_plot(title='', suptitle='', ticks=None, labels=None) -> None:
   """Displays a plot with the given title.
 
   Parameters:
   -----------
-  title: The title of the plot. 
-          By default, no title is displayed.
+  title: str
+    The title of the plot. 
+    By default, no title is displayed.
           
-  suptitle: The super title of the plot.
-            By default, no super title is displayed.
+  suptitle: str
+    The super title of the plot.
+    By default, no super title is displayed.
+
+  ticks: ArrayLike or None
+    The ticks to display on the x-axis.
+
+  labels: ArrayLike or None
+    The labels to display on the x-axis.
   """
 
   if title != '':
@@ -20,17 +28,21 @@ def show_plot(title: str = '', suptitle: str = '') -> None:
 
   if suptitle != '':
     plt.suptitle(suptitle)
+
+  if not(ticks is None or labels is None):
+    plt.xticks(ticks, labels)
     
   plt.show()
 
-def plot_regression_with_residues(data: pd.DataFrame) -> list:
+def plot_regression_with_residues(data) -> list:
   """Plots regression plots and their corresponding residual 
   plots for all permutations of columns in the given DataFrame.
 
   Parameters:
   ----------
-  data: The input data containing multiple columns for which 
-        regression and residual plots will be generated.
+  data: pd.DataFrame
+    The input data containing multiple columns for which 
+    regression and residual plots will be generated.
 
   Returns:
   --------
