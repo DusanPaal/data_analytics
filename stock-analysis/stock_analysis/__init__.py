@@ -1,1 +1,0 @@
-"""Contents to import when importing the package is imported."""
