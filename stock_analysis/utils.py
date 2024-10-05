@@ -2,6 +2,7 @@
 
 from functools import wraps
 import re
+from os import path
 
 import pandas as pd
 
@@ -29,7 +30,7 @@ def _sanitize_label(label: str) -> str:
   label = re.sub(r'\s+', ' ', label)
 
   # remove non-letter and non-space characters
-  label = re.sub(r'[^\W]', '', label)
+  label = re.sub(r'[^\w\s]', '', label)
 
   # replace spaces with underscores
   label = label.replace(' ', '_')
@@ -82,16 +83,17 @@ def group_stocks(mapping: dict) -> pd.DataFrame:
   A new `pandas.DataFrame` object.
   """
 
-  groups = []
+  group_df = pd.concat(
+    [
+        stock_data.copy(deep=True).assign(name=stock)
+        for stock, stock_data in mapping.items()
+    ],
+    sort=True
+  )
+  group_df.index = pd.to_datetime(group_df.index)
 
-  for stock, stock_data in mapping.items():
-    df = stock_data.copy(deep=True).assign(name=stock)
-    groups.append(df)
+  return group_df
 
-  groups_df = pd.concat(groups, sort=True)
-  groups_df.index = pd.to_datetime(groups_df.index)
-
-  return groups_df
 
 def validate_dataframe(columns, instance_method=True):
   """Decorator that raises a `ValueError` if input isn't
@@ -164,5 +166,3 @@ def make_portfolio(data, date_level='date'):
   dates line up across assets and handling when they don't.
   """
   return data.groupby(date_level).sum()
-
-

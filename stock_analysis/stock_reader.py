@@ -13,6 +13,10 @@ import yfinance as yf
 # local library imports
 from .utils import label_sanitizer
 
+class DataMissingError(Exception):
+  """Custom exception for missing 
+  data in the remote data source.
+  """
 
 class StockReader:
     """Class for reading financial data from websites."""
@@ -163,7 +167,7 @@ class StockReader:
 
       data = web.DataReader('DGS10', 'fred', self.start, self.end)
       data.index.rename('date', inplace=True)
-      data.squeeze(inplace=True)
+      data = data.squeeze()
 
       if last and isinstance(data, pd.Series):
         return data.asof(self.end)
@@ -182,6 +186,11 @@ class StockReader:
       Returns:
       --------
       A `pandas.DataFrame` object with the stock data.
+
+      Raises:
+      -------
+      DataMissingError:
+      If no data is found for the ticker.
       """ 
 
       try:
@@ -199,6 +208,12 @@ class StockReader:
               ticker, start, end + dt.timedelta(days=1),
               progress=False, ignore_tz=True
           )
+
+          if data.empty:
+            raise DataMissingError(
+              f'No data found for ticker "{ticker}" using '
+              'yfinance! The ticker may have been delisted.')
+
           print('success!')
 
       return data
