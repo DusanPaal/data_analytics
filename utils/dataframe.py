@@ -1,4 +1,4 @@
-def get_row_count(*dfs: list) -> list:
+def nrows(*dfs: list) -> list:
   """Returns the number of rows for each DataFrame provided.
 
   Parameters:
