@@ -28,10 +28,13 @@ def create_column_transformer(columns):
     (OneHotEncoder(), categorical)
   )
 
-planets = pd.read_csv("data/planets/planets.csv")
-planets_u = pd.read_csv("data/planets/planets_updated.csv")
+# read planetary data from file
+planets = pd.read_csv('data/planets/planets.csv') # older dataset
+planets_u = pd.read_csv('data/planets/planets_updated.csv') # most recent dataset
 
-
+# rename columns so that the concatenated 
+# names are split by an unerscore for better
+# readability and consistency
 for df in [planets, planets_u]:
   df.rename(
     columns={
@@ -143,6 +146,14 @@ x_train, x_test, y_train, y_test = train_test_split(
 x_train_norm = StandardScaler().fit_transform(x_train)
 x_test_norm = StandardScaler().fit_transform(x_test)
 
+# generate 10 random numbers between -0.3 and 0.3
+np.random.seed(0)
+noise = np.random.uniform(-0.3, 0.3, x_train.shape)
+
+
+
+
+
 # one-hot encode the list column
 dummies = pd.get_dummies(planets.list, drop_first=True)
 
@@ -245,6 +256,7 @@ ax.get_legend().remove()
 ax.set_title('KMeans Clusters')
 plt.show()
 
+top_sp = planet.loc[planet.index >= '2011-01-01']
 
 breakpoint()
 pass
