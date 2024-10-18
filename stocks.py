@@ -1,11 +1,16 @@
-import pandas as pd
-import stock_analysis
+
+# import built-in libraries
 import sys
+
+# import third-party libraries
 import matplotlib.pyplot as plt
+
+# import local libraries
 from stock_analysis.utils import (
   group_stocks, describe_group, make_portfolio
 )
 
+import stock_analysis
 from stock_analysis import (
   StockModeler, AssetGroupAnalyzer,
   StockVisualizer, AssetGroupVisualizer,
@@ -56,7 +61,7 @@ plt.show()
 # now compare the predictions of the ARIMA 
 # and regression models to the actual data
 start, end = '2021-01-01', '2021-01-14'
-january = stock_analysis.StockReader(start, end)
+january = StockReader(start, end)
 jan_netflix = january.get_ticker_data('NFLX')
 fig, axes = plt.subplots(1, 2, figsize=(15, 5))
 arima_ax = StockModeler.arima_predictions(
