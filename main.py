@@ -1,6 +1,6 @@
 import numpy as np
 from utils.dataframe import get_row_count
-from utils.random import generate_random_numbers as gen_rand
+from utils.numeric import generate_random_numbers as gen_rand
 import pandas as pd
 import datetime as dt
 import sqlite3
