@@ -364,3 +364,7 @@ FodyWeavers.xsd
 
 # python virtual environment
 env/
+
+# some data contents
+data/dogs_cats/
+data/pascal_voc/
