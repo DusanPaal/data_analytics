@@ -135,6 +135,10 @@ class StockModeler:
   def plot_residuals(model_fitted, freq='B'):
     """Visualize the residuals from the model.
 
+    The residuals are plotted as KDE that estimates
+    the probability density function (PDF) of a random
+    variable.
+
     Parameters:
     -----------
     model_fitted:
